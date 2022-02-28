@@ -1,0 +1,1 @@
+Les modeles de recherche les plus efficaces sont le modele de langage et le modele vectoriel

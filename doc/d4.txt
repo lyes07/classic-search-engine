@@ -1,0 +1,1 @@
+Apparition du modele booleen et l'elaboration de petites experimentations sur des petites collections de documents

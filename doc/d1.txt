@@ -1,0 +1,1 @@
+La mesure R-precision est pertinente pour la mesure de la precision moyenne
