@@ -2,50 +2,45 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Scanner;
+
 public class App {
     private static Scanner scanner;
     public static void main(String[] args) throws Exception {
     	ArrayList<String>  all = new ArrayList<>();
-    	ArrayList<String>  d1 = new ArrayList<>();
-    	ArrayList<String>  d2 = new ArrayList<>();
-    	ArrayList<String>  d3 = new ArrayList<>();
-    	ArrayList<String>  d4 = new ArrayList<>();
 
 		File doc=new File("doc");
     	int docNumber=doc.list().length;
-		
-		ArrayList<String>[]  dAll = new ArrayList[docNumber];
-		for (ArrayList<String> a : dAll) {
-			a = new ArrayList<>();
+
+		@SuppressWarnings("unchecked")
+		ArrayList<String>[]  d =(ArrayList<String>[]) new ArrayList[docNumber];
+		for(int i = 0 ;i<docNumber;i++){
+			d[i] = new ArrayList<String>();
 		}
-    	int i = 1;
-        // reading the Files d1,d2,d3,d4
-    	for (; i <=4; i++) {
-    		ArrayList<String>  d=d1;
-    		if (i == 2) d=d2;
-    		if (i == 3) d=d3;
-    		if (i == 4) d=d4;
-    		scanner = new Scanner(new File("doc/d"+i+".txt"));
+    	int i = 0;
+        // reading the Files d1,d2,d3,...,dn
+    	for (; i <docNumber; i++) {
+    		ArrayList<String>  temp=d[i];
+    		scanner = new Scanner(new File("doc/d"+(i+1)+".txt"));
             String[] d1FileAsString = scanner.nextLine().split(" ");  
             for (String string : d1FileAsString) {
     			if (string.split("'").length == 2) {
     				String[] tempString = string.split("'");
     				all.add(tempString[0]);
     				all.add(tempString[1]);
-    				d.add(tempString[0]);
-    				d.add(tempString[1]);
+    				temp.add(tempString[0]);
+    				temp.add(tempString[1]);
     				continue;
     			}
     			if (string.split("-").length == 2) {
     				String[] tempString = string.split("-");
     				all.add(tempString[0]);
     				all.add(tempString[1]);
-    				d.add(tempString[0]);
-    				d.add(tempString[1]);
+    				temp.add(tempString[0]);
+    				temp.add(tempString[1]);
     				continue;
     			}
     			all.add(string);
-    			d.add(string);
+    			temp.add(string);
     		}
 		}
         
@@ -67,18 +62,15 @@ public class App {
 		System.out.println("-----------------------------");
 
 		int length = finalAll.size();
-		int[][] ft = new int[length][5];
-		for(int j = 0;j<4;j++){
+		int[][] ft = new int[length][docNumber+1];
+		for(int j = 0;j<docNumber;j++){
 			int k = 0;
 			for (String string : finalAll) {
-				ArrayList<String> temp=d1;
-				if(j==1)temp=d2;
-				if(j==2)temp=d3;
-				if(j==3)temp=d4;
+				ArrayList<String> temp=d[j];
 				for (String s : temp) {
 					if(string.equals(s)){
 						ft[k][j]+=1;
-						ft[k][4]+=1;
+						ft[k][docNumber]+=1;
 					}
 				}
 				k++;
@@ -86,7 +78,7 @@ public class App {
 		}
 
     	for(int k=0;k<length;k++){
-			for(int j = 0; j<5;j++){
+			for(int j = 0; j<docNumber+1;j++){
 				System.out.print(ft[k][j]+"    ");
 			}
 			System.out.println();
@@ -94,9 +86,9 @@ public class App {
 
 		System.out.println("-----------------------------");
 
-        double tf[][] = new double[length][5];
+        double tf[][] = new double[length][docNumber+1];
 		i=0;
-		for(;i<4;i++){
+		for(;i<docNumber;i++){
 			int max=0;
 			for(int j = 0; j<length;j++){
 				if(ft[j][i]>max)max = ft[j][i];
@@ -108,16 +100,16 @@ public class App {
 
 		for(int j = 0; j<length;j++){
 			int num = 0;
-			for(int k=0;k<4;k++){
+			for(int k=0;k<docNumber;k++){
 				if(tf[j][k]!= 0.0){
 					num+=1;
 				}
 			}
-			tf[j][4] = Math.log10((double)4/num);
+			tf[j][docNumber] = Math.log10((double)docNumber/num);
 		}
 
 		for(int k=0;k<length;k++){
-			for(int j = 0; j<5;j++){
+			for(int j = 0; j<docNumber+1;j++){
 				System.out.print(tf[k][j]+"    ");
 			}
 			System.out.println();
