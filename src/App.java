@@ -102,29 +102,82 @@ public class App {
 		}
 
 		// printing the table
+		int z = 25 + ((docNumber+1)*2)+1 +(3*(docNumber)+1) + (5*(docNumber)+1)+5;
+		for(int h = 0; h<z; h++){
+			System.out.print("-");
+		}
 		System.out.println();
 		i=0;
 		for (String s : finalAll) {
 			System.out.print(ANSI_BLUE + s + ANSI_RESET);
-			int x = 20-s.length();
+			int x = 24-s.length();
 			while(x>0){
+				if(x==2){
+					System.out.print("|");
+					x--;
+					continue;
+				}
 				System.out.print(" ");
 				x--;
 			}
-			for(int k=0;k<docNumber;k++){
-				System.out.print(ANSI_GREEN+(ft[i][k]+"     ")+ANSI_RESET);
+			for(int k=0;k<docNumber-1;k++){
+				System.out.print(ANSI_GREEN+(ft[i][k]+" | ")+ANSI_RESET);
 			} 
-			System.out.print(ANSI_YELLOW+(ft[i][docNumber]+"     ")+ANSI_RESET);
-			for(int j = 0; j<docNumber;j++){
-				System.out.print(ANSI_CYAN+(tf[i][j]+"     ")+ANSI_RESET);
+			System.out.print(ANSI_GREEN+(ft[i][docNumber-1])+ANSI_RESET);
+			System.out.print(" | ");
+			System.out.print(ANSI_YELLOW+(ft[i][docNumber])+ANSI_RESET);
+			System.out.print(" | ");
+			for(int j = 0; j<docNumber-1;j++){
+				System.out.print(ANSI_CYAN+(tf[i][j]+" | ")+ANSI_RESET);
 			}
-			System.out.print(ANSI_PURPLE+(tf[i][docNumber]+"     ")+ANSI_RESET);
+			System.out.print(ANSI_CYAN+(tf[i][docNumber-1])+ANSI_RESET);
+			System.out.print(" | ");
+			System.out.print(ANSI_PURPLE+(tf[i][docNumber])+ANSI_RESET);
+			System.out.print(" | ");
 			i++;
+			System.out.println();
+			for(int h = 0; h<z; h++){
+				System.out.print("-");
+			}
 			System.out.println();
 		}
 		System.out.println();
+		
+		// take he user input
 		System.out.print("Enter the Search Query : ");
 		scanner = new Scanner(System.in);
-		String q = scanner.nextLine();
+		String[] q = scanner.nextLine().split(" ");
+
+		//calculat R for each document
+		double[] r = new double[docNumber];
+		for(i=0; i<docNumber; i++){
+			for (String s : q) {
+				int k = 0;
+				for (String elem : finalAll) {
+					if(s.equals(elem)){
+						r[i] += tf[k][i]*tf[k][docNumber];
+						continue;
+					}
+					k++;
+				}
+			}
+		}	
+		
+		// ranking the documents
+		int[] rank = new int[docNumber];
+		for(i=0; i<docNumber; i++){
+			int max=0;
+			for(int j=0; j<docNumber;j++){
+				if(r[max]<r[j])max=j;
+			}
+			rank[i] = max + 1;
+			r[max]=-1;
+		}
+
+		System.out.println("The documents rank is :");
+		for(i=0; i<docNumber; i++){
+			System.out.println("\td"+rank[i]);
+		}
+
     }
 }
