@@ -8,6 +8,7 @@ public class App {
     public static void main(String[] args) throws Exception {
     	ArrayList<String>  all = new ArrayList<>();
 
+		// the number of documents dynamicly
 		File doc=new File("doc");
     	int docNumber=doc.list().length;
 
@@ -16,8 +17,9 @@ public class App {
 		for(int i = 0 ;i<docNumber;i++){
 			d[i] = new ArrayList<String>();
 		}
+
+		// reading the Files d1,d2,d3,...,dn an extracting the words
     	int i = 0;
-        // reading the Files d1,d2,d3,...,dn
     	for (; i <docNumber; i++) {
     		ArrayList<String>  temp=d[i];
     		scanner = new Scanner(new File("doc/d"+(i+1)+".txt"));
@@ -105,7 +107,7 @@ public class App {
 					num+=1;
 				}
 			}
-			tf[j][docNumber] = Math.log10((double)docNumber/num);
+			tf[j][docNumber] = (double)((int)(Math.log10((double)docNumber/num)*1000))/1000;
 		}
 
 		for(int k=0;k<length;k++){
