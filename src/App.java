@@ -5,6 +5,12 @@ import java.util.Scanner;
 
 public class App {
     private static Scanner scanner;
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_GREEN = "\u001B[32m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+	public static final String ANSI_BLUE = "\u001B[34m";
+	public static final String ANSI_PURPLE = "\u001B[35m";
+	public static final String ANSI_CYAN = "\u001B[36m";
     public static void main(String[] args) throws Exception {
     	ArrayList<String>  all = new ArrayList<>();
 
@@ -56,12 +62,6 @@ public class App {
 				finalAll.remove(string);
 			}
 		}
-        
-        for (String string : finalAll) {
-			System.out.println(string);
-		} 
-
-		System.out.println("-----------------------------");
 
 		int length = finalAll.size();
 		int[][] ft = new int[length][docNumber+1];
@@ -78,15 +78,6 @@ public class App {
 				k++;
 			}
 		}
-
-    	for(int k=0;k<length;k++){
-			for(int j = 0; j<docNumber+1;j++){
-				System.out.print(ft[k][j]+"    ");
-			}
-			System.out.println();
-		} 
-
-		System.out.println("-----------------------------");
 
         double tf[][] = new double[length][docNumber+1];
 		i=0;
@@ -110,14 +101,30 @@ public class App {
 			tf[j][docNumber] = (double)((int)(Math.log10((double)docNumber/num)*1000))/1000;
 		}
 
-		for(int k=0;k<length;k++){
-			for(int j = 0; j<docNumber+1;j++){
-				System.out.print(tf[k][j]+"    ");
+		// printing the table
+		System.out.println();
+		i=0;
+		for (String s : finalAll) {
+			System.out.print(ANSI_BLUE + s + ANSI_RESET);
+			int x = 20-s.length();
+			while(x>0){
+				System.out.print(" ");
+				x--;
 			}
+			for(int k=0;k<docNumber;k++){
+				System.out.print(ANSI_GREEN+(ft[i][k]+"     ")+ANSI_RESET);
+			} 
+			System.out.print(ANSI_YELLOW+(ft[i][docNumber]+"     ")+ANSI_RESET);
+			for(int j = 0; j<docNumber;j++){
+				System.out.print(ANSI_CYAN+(tf[i][j]+"     ")+ANSI_RESET);
+			}
+			System.out.print(ANSI_PURPLE+(tf[i][docNumber]+"     ")+ANSI_RESET);
+			i++;
 			System.out.println();
-		} 
-		
-
-		
+		}
+		System.out.println();
+		System.out.print("Enter the Search Query : ");
+		scanner = new Scanner(System.in);
+		String q = scanner.nextLine();
     }
 }
